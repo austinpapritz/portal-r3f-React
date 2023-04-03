@@ -4,12 +4,30 @@ import {
   useTexture,
   Center,
   Sparkles,
+  shaderMaterial,
 } from "@react-three/drei";
+
+import { extend } from "@react-three/fiber";
 
 import * as THREE from "three";
 
 import portalVertexShader from "./shaders/portal/vertex.glsl";
 import portalFragmentShader from "./shaders/portal/fragment.glsl";
+
+// instead of importing THREE to define the shader attributes, drei has a shaderMaterial helper
+// as we do below, create a custom component that will utilize the helper
+// we still need to define an object with the u-properties and then the imported shaders.glsl
+const PortalMaterial = shaderMaterial(
+  {
+    uTime: 0,
+    uColorStart: new THREE.Color("#ffffff"),
+    uColorEnd: new THREE.Color("#000000"),
+  },
+  portalVertexShader,
+  portalFragmentShader
+);
+
+extend({ PortalMaterial });
 
 export default function Experience() {
   const { nodes } = useGLTF("./model/portal.glb");
@@ -52,15 +70,8 @@ export default function Experience() {
           position={nodes.portalLight.position}
           rotation={nodes.portalLight.rotation}
         >
-          <shaderMaterial
-            vertexShader={portalVertexShader}
-            fragmentShader={portalFragmentShader}
-            uniforms={{
-              uTime: { value: 0 },
-              uColorStart: { value: new THREE.Color("#ffffff") },
-              uColorEnd: { value: new THREE.Color("#000000") },
-            }}
-          />
+          {/* we created this extension with the shaderMaterial helper from drei and the extend class from R3F */}
+          <portalMaterial />
         </mesh>
 
         <Sparkles
