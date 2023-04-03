@@ -6,6 +6,8 @@ import {
   Sparkles,
 } from "@react-three/drei";
 
+import * as THREE from "three";
+
 import portalVertexShader from "./shaders/portal/vertex.glsl";
 import portalFragmentShader from "./shaders/portal/fragment.glsl";
 
@@ -50,7 +52,15 @@ export default function Experience() {
           position={nodes.portalLight.position}
           rotation={nodes.portalLight.rotation}
         >
-          <shaderMaterial />
+          <shaderMaterial
+            vertexShader={portalVertexShader}
+            fragmentShader={portalFragmentShader}
+            uniforms={{
+              uTime: { value: 0 },
+              uColorStart: { value: new THREE.Color("#ffffff") },
+              uColorEnd: { value: new THREE.Color("#000000") },
+            }}
+          />
         </mesh>
 
         <Sparkles
