@@ -32,6 +32,7 @@ const PortalMaterial = shaderMaterial(
 extend({ PortalMaterial });
 
 export default function Experience() {
+  // this gives up access to the nodes of the physical objects in the scene
   const { nodes } = useGLTF("./model/portal.glb");
 
   const bakedTexture = useTexture("./model/baked.jpg");
