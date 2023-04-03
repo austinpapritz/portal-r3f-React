@@ -1,4 +1,4 @@
-import { OrbitControls, useGLTF, useTexture } from "@react-three/drei";
+import { OrbitControls, useGLTF, useTexture, Center } from "@react-three/drei";
 
 export default function Experience() {
   const { nodes } = useGLTF("./model/portal.glb");
@@ -12,9 +12,27 @@ export default function Experience() {
 
       <OrbitControls makeDefault />
 
-      <mesh geometry={nodes.baked.geometry}>
-        <meshBasicMaterial map={bakedTexture} />
-      </mesh>
+      <Center>
+        <mesh geometry={nodes.baked.geometry}>
+          <meshBasicMaterial map={bakedTexture} />
+        </mesh>
+        <mesh
+          geometry={nodes.poleLightA.geometry}
+          position={nodes.poleLightA.position}
+        >
+          <meshBasicMaterial color="#ffffe5" />
+        </mesh>
+
+        <mesh geometry={nodes.baked.geometry}>
+          <meshBasicMaterial map={bakedTexture} />
+        </mesh>
+        <mesh
+          geometry={nodes.poleLightB.geometry}
+          position={nodes.poleLightB.position}
+        >
+          <meshBasicMaterial color="#ffffe5" />
+        </mesh>
+      </Center>
     </>
   );
 }
