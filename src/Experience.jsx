@@ -6,6 +6,9 @@ import {
   Sparkles,
 } from "@react-three/drei";
 
+import portalVertexShader from "./shaders/portal/vertex.glsl";
+import portalFragmentShader from "./shaders/portal/fragment.glsl";
+
 export default function Experience() {
   const { nodes } = useGLTF("./model/portal.glb");
 
@@ -46,7 +49,9 @@ export default function Experience() {
           geometry={nodes.portalLight.geometry}
           position={nodes.portalLight.position}
           rotation={nodes.portalLight.rotation}
-        ></mesh>
+        >
+          <shaderMaterial />
+        </mesh>
 
         <Sparkles
           size={6}
