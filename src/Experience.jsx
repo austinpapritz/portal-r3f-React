@@ -7,7 +7,9 @@ import {
   shaderMaterial,
 } from "@react-three/drei";
 
-import { extend } from "@react-three/fiber";
+import { useRef } from "react";
+
+import { extend, useFrame } from "@react-three/fiber";
 
 import * as THREE from "three";
 
@@ -34,6 +36,11 @@ export default function Experience() {
 
   const bakedTexture = useTexture("./model/baked.jpg");
   bakedTexture.flipY = false;
+
+  const portalMaterial = useRef();
+  useFrame((state, delta) => {
+    portalMaterial.current.uTime += Math.tan(delta * 3);
+  });
 
   return (
     <>
@@ -71,7 +78,8 @@ export default function Experience() {
           rotation={nodes.portalLight.rotation}
         >
           {/* we created this extension with the shaderMaterial helper from drei and the extend class from R3F */}
-          <portalMaterial />
+          {/* this is especially useful for reusing shader materials for multiple similar objects (ie., use it just like a component) */}
+          <portalMaterial ref={portalMaterial} />
         </mesh>
 
         <Sparkles
